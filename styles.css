@@ -408,3 +408,64 @@ body::after {
 ::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb { background: var(--white-muted); }
 ::-webkit-scrollbar-thumb:hover { background: var(--white-dim); }
+
+@media (max-width: 768px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+
+    #user-info {
+        grid-column: 1;
+    }
+
+    #graphs-section {
+        grid-column: 1;
+        grid-template-columns: 1fr;
+    }
+
+    .top-bar {
+        padding: 14px 20px;
+    }
+
+    .top-bar-title {
+        font-size: 1rem;
+    }
+
+    #user-info .username {
+        font-size: 1.8rem;
+    }
+
+    .level-number {
+        font-size: 3.5rem;
+    }
+
+    #login-card {
+        padding: 36px 24px;
+        margin: 16px;
+    }
+
+    #login-card h1 {
+        font-size: 2rem;
+    }
+
+    #graphs-section svg {
+        width: 100%;
+        height: auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .top-bar-title {
+        font-size: 0.85rem;
+        letter-spacing: 0.1em;
+    }
+
+    #logout-link {
+        font-size: 0.65rem;
+        padding: 6px 12px;
+    }
+
+    .level-number {
+        font-size: 3rem;
+    }
+}
