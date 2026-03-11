@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GraphQL</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
@@ -13,7 +14,7 @@
         <div id="login-card">
             <h1>Login</h1>
             <p>Enter your credentials</p>
-            <div id="login-form" novalidate>
+            <form id="login-form" novalidate>
                 <div class="form-group">
                     <label for="identifier">Username or Email</label>
                     <input type="text" id="identifier" name="identifier" placeholder="Username/Email">
@@ -28,9 +29,18 @@
                     <span class="field error" id="form-error"></span>
                     <button id="login-button">Login</button>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
+
+    <!-- Main Content -->
+    <main id="main-content">
+        <div id="user-info"></div>
+        <div id="stats-section"></div>
+        <div id="graphs-section"></div>
+        <a href="#" id="logout-link">Logout</a>
+    </main>
+    <script src="app.js"></script>
 </body>
 
 </html>
