@@ -339,7 +339,6 @@ function renderXPPerProject(transactions) {
 }
 
 function renderStreakCard(transactions) {
-    // Get unique days where XP was earned
     const days = [...new Set(
         transactions
             .filter(t => t.amount > 0)

@@ -31,7 +31,6 @@ body {
     overflow-x: hidden;
 }
 
-/* Grain overlay */
 body::after {
     content: '';
     position: fixed;
@@ -42,9 +41,6 @@ body::after {
     opacity: 0.5;
 }
 
-/* ════════════════════════════════
-   LOGIN — Loading Screen Style
-════════════════════════════════ */
 #login-page {
     display: flex;
     align-items: center;
@@ -164,9 +160,6 @@ body::after {
 #login-button:hover { background: #fff; }
 #login-button:active { transform: scale(0.98); }
 
-/* ════════════════════════════════
-   MAIN CONTENT — Stats Menu Style
-════════════════════════════════ */
 #main-content {
     display: none;
     min-height: 100vh;
@@ -255,7 +248,6 @@ body::after {
     border-bottom: 1px solid var(--border);
 }
 
-/* ─── User Info ─── */
 #user-info .username {
     font-family: var(--font-display);
     font-size: 2.6rem;
@@ -295,8 +287,7 @@ body::after {
     color: var(--white);
 }
 
-/* ─── Level ─── */
-#level-card .level-number {
+.level-number {
     font-family: var(--font-display);
     font-size: 5rem;
     font-weight: 700;
@@ -304,7 +295,7 @@ body::after {
     line-height: 1;
 }
 
-#level-card .level-label {
+.level-label {
     font-size: 0.7rem;
     letter-spacing: 0.2em;
     text-transform: uppercase;
@@ -312,7 +303,6 @@ body::after {
     margin-top: 8px;
 }
 
-/* ─── Lists ─── */
 #activity-card ul,
 #xp-projects-card ul {
     list-style: none;
@@ -368,7 +358,6 @@ body::after {
     grid-column: 1 / -1;
 }
 
-/* ─── Graphs ─── */
 #graphs-section {
     grid-column: 1 / -1;
     display: grid;
@@ -415,7 +404,6 @@ body::after {
 .audit-legend .up   { color: var(--white); }
 .audit-legend .down { color: var(--white-muted); }
 
-/* ─── Scrollbar ─── */
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb { background: var(--white-muted); }
