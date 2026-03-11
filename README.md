@@ -4,7 +4,7 @@ A personal profile dashboard built with vanilla HTML, CSS, and JavaScript, pulli
 
 ## 🔗 Live Demo
 
-[View Live](https://YOUR_USERNAME.github.io/graphql-profile)
+[View Live](https://bur-m7th.github.io/graphql-profile)
 
 ---
 
