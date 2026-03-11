@@ -27,7 +27,7 @@
                 </div>
                 <div class="form-group">
                     <span class="field error" id="form-error"></span>
-                    <button id="login-button">Login</button>
+                    <button type="submit" id="login-button">Login</button>
                 </div>
             </form>
         </div>
@@ -35,11 +35,19 @@
 
     <!-- Main Content -->
     <main id="main-content">
-        <div id="user-info"></div>
-        <div id="stats-section"></div>
-        <div id="graphs-section"></div>
+    <div class="top-bar">
+        <span class="top-bar-title">CJ Stats</span>
         <a href="#" id="logout-link">Logout</a>
-    </main>
+    </div>
+    <div class="dashboard-grid">
+    <div id="user-info" class="card"></div>
+    <div id="level-card" class="card"></div>
+    <div id="streak-card" class="card"></div>
+    <div id="activity-card" class="card"></div>
+    <div id="xp-projects-card" class="card"></div>
+    <div id="graphs-section"></div>
+</div>
+</main>
     <script src="app.js"></script>
 </body>
 
