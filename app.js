@@ -126,25 +126,19 @@ async function loadData() {
         grade
         path
     }
-    progress(where: {
-        _and: [
-            { path: { _regex: "^/bahrain/bh-module/[^/]+$" } },
-            { path: { _nlike: "%piscine%" } },
-            { isDone: { _eq: false } }
-        ]
-        order_by: { updatedAt: desc }
-    }) {
-        path
-        updatedAt
-    }
 }`);
+
+    if (!data) {
+        console.error("GraphQL returned null — open Network tab and check the response body for errors");
+        return;
+    }
 
     document.getElementById("graphs-section").innerHTML = "";
 
     const processed = processData(data);
     renderProfile(processed);
     renderLevel(data);
-    renderRecentActivity(data.transaction, data.progress);
+    renderRecentActivity(data.transaction);
     renderXPPerProject(data.transaction);
     renderStreakCard(data.transaction);
     renderSpiderChart(processed.skills);
@@ -167,11 +161,7 @@ function processData(data) {
         .sort((a, b) => b.amount - a.amount)
         .slice(0, 8);
 
-    return {
-        user,
-        totalXP,
-        skills
-    };
+    return { user, totalXP, skills };
 }
 
 function formatXP(xp) {
@@ -307,36 +297,17 @@ function renderLevel(data) {
     `;
 }
 
-function renderRecentActivity(transactions, progressItems = []) {
-    // Map completed XP transactions
-    const completed = transactions.map(t => ({
-        createdAt: t.createdAt,
-        path: t.path,
-        amount: t.amount,
-        ongoing: false
-    }));
-
-    // Map ongoing projects from progress table
-    const ongoing = (progressItems || []).map(p => ({
-        createdAt: p.updatedAt,
-        path: p.path,
-        amount: null,
-        ongoing: true
-    }));
-
-    const all = [...completed, ...ongoing]
+function renderRecentActivity(transactions) {
+    const recent = [...transactions]
         .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
         .slice(0, 5);
 
-    const items = all.map(t => {
+    const items = recent.map(t => {
         const date = new Date(t.createdAt).toLocaleDateString();
         const name = t.path.split("/").pop();
-        const xpLabel = t.ongoing
-            ? `<span class="item-xp item-ongoing">IN PROGRESS</span>`
-            : `<span class="item-xp">${t.amount > 0 ? '+' : ''}${formatXP(t.amount)}</span>`;
         return `<li>
             <span class="item-name">${name}</span>
-            ${xpLabel}
+            <span class="item-xp">${t.amount > 0 ? '+' : ''}${formatXP(t.amount)}</span>
             <span class="item-date">${date}</span>
         </li>`;
     }).join("");
@@ -351,7 +322,7 @@ function renderXPPerProject(transactions) {
     const projectMap = {};
 
     transactions
-        .filter(t => !t.path.includes("quest") && !t.path.includes("checkpoint") && !t.path.includes("piscine") && t.amount > 0)
+        .filter(t => !t.path.includes("quest") && !t.path.includes("checkpoint") && t.amount > 0)
         .forEach(t => {
             const name = t.path.split("/").pop();
             if (!projectMap[name] || t.amount > projectMap[name]) {
