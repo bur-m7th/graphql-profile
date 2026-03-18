@@ -49,6 +49,7 @@ body::after {
     background: linear-gradient(to bottom, #000 0%, #111 40%, #0a0a0a 100%);
     position: relative;
     overflow: hidden;
+    padding: 20px;
 }
 
 #login-page::before {
@@ -174,6 +175,7 @@ body::after {
     position: sticky;
     top: 0;
     z-index: 100;
+    gap: 12px;
 }
 
 .top-bar-title {
@@ -183,6 +185,7 @@ body::after {
     letter-spacing: 0.2em;
     text-transform: uppercase;
     color: #000;
+    white-space: nowrap;
 }
 
 #logout-link {
@@ -196,6 +199,8 @@ body::after {
     border: 2px solid #000;
     padding: 7px 18px;
     transition: all 0.15s;
+    white-space: nowrap;
+    flex-shrink: 0;
 }
 
 #logout-link:hover {
@@ -408,3 +413,123 @@ body::after {
 ::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb { background: var(--white-muted); }
 ::-webkit-scrollbar-thumb:hover { background: var(--white-dim); }
+
+@media (max-width: 1024px) {
+    .dashboard-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    #login-card {
+        padding: 36px 24px;
+    }
+
+    #login-card h1 {
+        font-size: 2.2rem;
+    }
+
+    .top-bar {
+        padding: 14px 20px;
+    }
+
+    .top-bar-title {
+        font-size: 1.1rem;
+        letter-spacing: 0.12em;
+    }
+
+    #logout-link {
+        font-size: 0.68rem;
+        padding: 6px 12px;
+        letter-spacing: 0.12em;
+    }
+
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .card {
+        padding: 20px 18px;
+    }
+
+    #user-info .username {
+        font-size: 2rem;
+    }
+
+    .level-number {
+        font-size: 3.8rem;
+    }
+
+    #graphs-section {
+        grid-template-columns: 1fr;
+    }
+
+    #graphs-section svg {
+        width: 100% !important;
+        height: auto !important;
+    }
+
+    .audit-legend {
+        gap: 16px;
+    }
+
+    #activity-card li,
+    #xp-projects-card li {
+        flex-wrap: wrap;
+        gap: 6px;
+    }
+
+    .item-date {
+        width: 100%;
+        order: 3;
+    }
+}
+
+@media (max-width: 480px) {
+    #login-card {
+        padding: 28px 18px;
+    }
+
+    #login-card h1 {
+        font-size: 1.8rem;
+    }
+
+    #login-card > p {
+        font-size: 0.68rem;
+        margin-bottom: 28px;
+    }
+
+    .top-bar-title {
+        font-size: 0.95rem;
+    }
+
+    #logout-link {
+        font-size: 0.62rem;
+        padding: 5px 10px;
+    }
+
+    #user-info .username {
+        font-size: 1.6rem;
+    }
+
+    #user-info .meta-label,
+    #user-info .meta-value {
+        font-size: 0.82rem;
+    }
+
+    .level-number {
+        font-size: 3rem;
+    }
+
+    .card h3 {
+        font-size: 0.6rem;
+    }
+
+    .item-name {
+        font-size: 0.72rem;
+    }
+
+    .item-xp {
+        font-size: 0.78rem;
+    }
+}
