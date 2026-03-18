@@ -245,16 +245,8 @@ function renderSpiderChart(skills) {
 }
 
 function renderPassFailChart(results) {
-    const bestGrades = {};
-    results.forEach(r => {
-        if (!bestGrades[r.path] || r.grade > bestGrades[r.path]) {
-            bestGrades[r.path] = r.grade;
-        }
-    });
-
-    const grades = Object.values(bestGrades);
-    const passed = grades.filter(g => g >= 1).length;
-    const failed = grades.filter(g => g < 1).length;
+    const passed = results.filter(r => r.grade >= 1).length;
+    const failed = results.filter(r => r.grade < 1).length;
     const total = passed + failed;
 
     const size = 300;
