@@ -95,7 +95,10 @@ async function loadData() {
         totalUp
         totalDown
     }
-    transaction(where: { type: { _eq: "xp" } }) {
+    transaction(where: {
+        type: { _eq: "xp" },
+        path: { _like: "/bahrain/bh-module/%" }
+    }) {
         amount
         createdAt
         path
@@ -112,12 +115,28 @@ async function loadData() {
     ) {
         amount
     }
-    result(where: { 
-    path: { _regex: "^/bahrain/bh-module/[^/]+$" }
-}) {
-    grade
-    path
-}
+    result(where: {
+        _and: [
+            { path: { _regex: "^/bahrain/bh-module/[^/]+$" } },
+            { path: { _nlike: "%piscine%" } },
+            { path: { _nlike: "%checkpoint%" } },
+            { grade: { _is_null: false } }
+        ]
+    }) {
+        grade
+        path
+    }
+    progress(where: {
+        _and: [
+            { path: { _regex: "^/bahrain/bh-module/[^/]+$" } },
+            { path: { _nlike: "%piscine%" } },
+            { isDone: { _eq: false } }
+        ]
+        order_by: { updatedAt: desc }
+    }) {
+        path
+        updatedAt
+    }
 }`);
 
     document.getElementById("graphs-section").innerHTML = "";
@@ -125,7 +144,7 @@ async function loadData() {
     const processed = processData(data);
     renderProfile(processed);
     renderLevel(data);
-    renderRecentActivity(data.transaction);
+    renderRecentActivity(data.transaction, data.progress);
     renderXPPerProject(data.transaction);
     renderStreakCard(data.transaction);
     renderSpiderChart(processed.skills);
@@ -288,17 +307,36 @@ function renderLevel(data) {
     `;
 }
 
-function renderRecentActivity(transactions) {
-    const recent = [...transactions]
+function renderRecentActivity(transactions, progressItems = []) {
+    // Map completed XP transactions
+    const completed = transactions.map(t => ({
+        createdAt: t.createdAt,
+        path: t.path,
+        amount: t.amount,
+        ongoing: false
+    }));
+
+    // Map ongoing projects from progress table
+    const ongoing = (progressItems || []).map(p => ({
+        createdAt: p.updatedAt,
+        path: p.path,
+        amount: null,
+        ongoing: true
+    }));
+
+    const all = [...completed, ...ongoing]
         .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
         .slice(0, 5);
 
-    const items = recent.map(t => {
+    const items = all.map(t => {
         const date = new Date(t.createdAt).toLocaleDateString();
         const name = t.path.split("/").pop();
+        const xpLabel = t.ongoing
+            ? `<span class="item-xp item-ongoing">IN PROGRESS</span>`
+            : `<span class="item-xp">${t.amount > 0 ? '+' : ''}${formatXP(t.amount)}</span>`;
         return `<li>
             <span class="item-name">${name}</span>
-            <span class="item-xp">${t.amount > 0 ? '+' : ''}${formatXP(t.amount)}</span>
+            ${xpLabel}
             <span class="item-date">${date}</span>
         </li>`;
     }).join("");
@@ -313,7 +351,7 @@ function renderXPPerProject(transactions) {
     const projectMap = {};
 
     transactions
-        .filter(t => !t.path.includes("quest") && !t.path.includes("checkpoint") && t.amount > 0)
+        .filter(t => !t.path.includes("quest") && !t.path.includes("checkpoint") && !t.path.includes("piscine") && t.amount > 0)
         .forEach(t => {
             const name = t.path.split("/").pop();
             if (!projectMap[name] || t.amount > projectMap[name]) {
